@@ -27,7 +27,7 @@ describe('the server,', () => {
 		done();
 	});
 
-	it('should get all notes when /notes is hit with POST', async (done) => {
+	it('should update the list of notes when /notes is hit with POST', async (done) => {
 		let obj = {
 			method: 'POST',
 			url: '/notes',

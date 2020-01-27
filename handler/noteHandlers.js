@@ -29,7 +29,7 @@ const getQuote = (response, h) => {
 
 const deleteNote = async (request, h) => {
 	let url = request.url.toString().split('/');
-	let id = url[url.length - 1];
+	let id = url[url.length - 1]; //params
 	let data = await fileOperations.readFromNotes('./listOfNotes.json');     
 	let arrayOfNotes = JSON.parse(data);
 	let filterObj = arrayOfNotes.notes.filter(function(obj) {

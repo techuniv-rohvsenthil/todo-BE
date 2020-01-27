@@ -6,19 +6,8 @@ const dailyQuote = require('inspirational-quotes');
 const str = '{"notes":[{"title":"Note 1","description":"Note 1 description","noteId":"gaqa5v6","isActive":"true"},{"title":"Note 2","description":"Note 2 description","noteId":"r7uf6tc","isActive":"true"},{"title":"Note 3","description":"Note 3 description","noteId":"8tjrema","isActive":"true"},{"title":"Note 4","description":"Note 4 description","noteId":"myuqpje","isActive":"true"}]}';
 
 describe('the handlers,', () => {  
-	
-	let server;
 
-	beforeEach(async () => {
-		server = await init();
-	});
-
-	afterEach(async () => {
-		await server.stop();
-	});
-
-
-	it('should call the getNotes handler function which returns a response with all notes when /notes is hit with GET', async (done) => {
+	it('should call the getNotes handler function when /notes is hit with GET', async (done) => {
 		const mock = {
 			response: jest.fn()
 		};
@@ -28,7 +17,7 @@ describe('the handlers,', () => {
 		done();
 	});
 
-	it('should call the postNotes handler function which appends the new note to the JSON file when /notes is hit with POST', async (done) => {
+	it('should call the postNotes handler function when /notes is hit with POST', async (done) => {
 		const mockRequest = {
 			payload: {
 				title: 'Note new',
@@ -65,7 +54,7 @@ describe('the handlers,', () => {
 	// });
 
 
-	it('should call the getQuote handler function which returns a response with a quote when /quotes is hit with GET', async (done) => {
+	it('should call the getQuote handler function when /quotes is hit with GET', async (done) => {
 		dailyQuote.getRandomQuote = jest.fn();
 		const mockResponse = {
 			response: jest.fn()
