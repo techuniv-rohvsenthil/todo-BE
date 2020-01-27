@@ -8,8 +8,7 @@ const postNoteSchema = Joi.object(
     
 const deleteNoteSchema = Joi.object(
 	{
-		params: {
-			id: Joi.string().required()}
+		id: Joi.string().required()
 	});
     
 module.exports = {postNoteSchema, deleteNoteSchema};
