@@ -2,7 +2,6 @@ const fs = require('promise-fs');
 const {getNotes, getQuote, postNote, deleteNote, modifyNote} = require('../../src/handler/noteHandlers');
 const fileOperations = require('../../src/utils/fileOperations');
 const dailyQuote = require('inspirational-quotes');
-//const str = '{"notes":[{"title":"Note 1","description":"Note 1 description","noteId":"gaqa5v6","isActive":"true"},{"title":"Note 2","description":"Note 2 description","noteId":"r7uf6tc","isActive":"true"},{"title":"Note 3","description":"Note 3 description","noteId":"8tjrema","isActive":"true"},{"title":"Note 4","description":"Note 4 description","noteId":"myuqpje","isActive":"true"}]}';
 
 describe('the handlers,', () => {  
 
@@ -35,6 +34,24 @@ describe('the handlers,', () => {
 		mockWriteToNotes.mockRestore();
 		done();
 	});
+
+	it('should call the deleteNote handler function when /notes/{id} is hit with DELETE', async (done) => {
+		const mockRequest = {
+			url: '/notes/ysqyvwk',
+		};
+		const mockH = {
+			response: () => {}
+		};	
+		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
+		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
+		await deleteNote(mockRequest, mockH);
+		expect(mockReadFromNotes).toHaveBeenCalled();
+		expect(mockWriteToNotes).toHaveBeenCalled();
+		mockReadFromNotes.mockRestore();
+		mockWriteToNotes.mockRestore();
+		done();
+	});
+
 
 	it('should call the getQuote handler function when /quotes is hit with GET', async (done) => {
 		dailyQuote.getRandomQuote = jest.fn();
