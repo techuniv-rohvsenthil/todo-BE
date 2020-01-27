@@ -17,7 +17,7 @@ const getNotes = async (response, h) => {
 
 	let notes = await fileOperations.readFromNotes('./listOfNotes.json');
 	let parsedNotes = JSON.parse(notes);
-	return h.response(JSON.stringify(parsedNotes));
+	return h.response(parsedNotes);
 
 };
 
@@ -32,12 +32,11 @@ const deleteNote = async (request, h) => {
 	let id = url[url.length - 1]; //params
 	let data = await fileOperations.readFromNotes('./listOfNotes.json');     
 	let arrayOfNotes = JSON.parse(data);
-	let filterObj = arrayOfNotes.notes.filter(function(obj) {
+	arrayOfNotes.notes = arrayOfNotes.notes.filter(function(obj) {
 		return obj.noteId != id;
 	});
-	//noteList = {note:[]}
-	await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(filterObj));
-	return JSON.stringify(filterObj);
+	await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
+	return h.response('Note deleted');
 
 };
 

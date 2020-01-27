@@ -22,8 +22,6 @@ const start = async () => {
 
 //server.validator(Joi);
 server.route(routes);
-
-//server.start();
 console.log('Server started');
 
 module.exports = {

@@ -23,7 +23,7 @@ describe('the server,', () => {
 			url: '/notes'
 		};
 		const res = await server.inject(obj);
-		expect(res.payload).toBe(str);
+		expect(res.statusCode).toBe(200);
 		done();
 	});
 
@@ -32,12 +32,24 @@ describe('the server,', () => {
 			method: 'POST',
 			url: '/notes',
 			payload: {
-				title: 'Note 5',
-				description: 'Note 5 description'
+				title: 'Note new',
+				description: 'Note new description'
 			}
 		};
 		const res = await server.inject(obj);
 		expect(res.payload).toBe('Note added');
+		expect(res.statusCode).toBe(200);
+		done();
+	});
+
+	it('should delete expected note when /notes/{id} is hit with DELETE', async (done) => {
+		let obj = {
+			method: 'DELETE',
+			url: '/notes/bvi1it8'
+		};
+		const res = await server.inject(obj);
+		expect(res.payload).toBe('Note deleted');
+		expect(res.statusCode).toBe(200);
 		done();
 	});
 
