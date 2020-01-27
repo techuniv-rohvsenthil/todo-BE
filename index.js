@@ -1,4 +1,4 @@
-const routes = require('./router/routes');
+const routes = require('./src/router/routes');
 const Hapi = require('@hapi/hapi');
 const Joi = require('@hapi/joi');
 
@@ -20,15 +20,7 @@ const start = async () => {
 	return server;
 };
 
-//server.validator(Joi);
+server.validator(Joi);
 server.route(routes);
-
-//server.start();
+server.start();
 console.log('Server started');
-
-module.exports = {
-	init,
-	start
-};
-
-
