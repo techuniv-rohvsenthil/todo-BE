@@ -58,6 +58,16 @@ describe('the server,', () => {
 		done();
 	});
 
+	it('should recieve statusCode:200 when /notes/{id} is hit with PUT', async (done) =>{
+		const injectOptions = {
+			method: 'PUT',
+			url: '/notes/gaqa5v6',
+		};
+		const response = await server.inject(injectOptions);
+		expect(response.statusCode).toEqual(200);
+		done();
+	});
+
 
 });
 
