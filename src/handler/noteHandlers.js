@@ -6,8 +6,7 @@ const postNote = async (request, h) => {
 		let body = request.payload;	
 		body.noteId = uid();
 		body.isActive = true;
-		let data = await fileOperations.readFromNotes('./listOfNotes.json');     
-		let arrayOfNotes = JSON.parse(data);
+		let arrayOfNotes = await fileOperations.readFromNotes('./listOfNotes.json');     
 		arrayOfNotes.notes.push(body);
 		await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
 		return h.response('Note added').code(200);
@@ -20,8 +19,7 @@ const postNote = async (request, h) => {
 const getNotes = async (response, h) => {
 	try{
 		let notes = await fileOperations.readFromNotes('./listOfNotes.json');
-		let parsedNotes = JSON.parse(notes);
-		return h.response(parsedNotes).code(200);
+		return h.response(notes).code(200);
 	}
 	catch(err){
 		return h.response(err.message).code(500);
@@ -32,8 +30,7 @@ const getNotes = async (response, h) => {
 const deleteNote = async (request, h) => {
 	try{
 		let id = request.params.id;
-		let data = await fileOperations.readFromNotes('./listOfNotes.json');     
-		let arrayOfNotes = JSON.parse(data);
+		let arrayOfNotes = await fileOperations.readFromNotes('./listOfNotes.json');     
 		arrayOfNotes.notes = arrayOfNotes.notes.filter(function(obj) {
 			return obj.noteId != id;
 		});
@@ -48,8 +45,7 @@ const deleteNote = async (request, h) => {
 
 const changeStateOfNote = async (request, h) => {
 	try{
-		let data = await fileOperations.readFromNotes('./listOfNotes.json');
-		let arrayOfNotes = JSON.parse(data);     
+		let arrayOfNotes = await fileOperations.readFromNotes('./listOfNotes.json');    
 		const noteId = request.params.id;
 		let id = 0;
 		arrayOfNotes.notes.forEach((note) => {

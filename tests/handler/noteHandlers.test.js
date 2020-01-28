@@ -3,21 +3,49 @@ const fileOperations = require('../../src/utils/fileOperations');
 
 describe('the getNotes handler function,', () => {  
 
-	it('should call readFromNotes when /notes is hit with GET', async (done) => {
+	it('should call readFromNotes when /notes is hit with GET', async () => {
 		const mockCode = jest.fn();
-		const mock = {
-			response: () => {
+		const mockH = {
+			response: jest.fn(() => {
 				return {
 					code: mockCode
 				};
-			}
+			})
 		};
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
-		await getNotes(null, mock);
-		expect(mockReadFromNotes).toHaveBeenCalled();
+		const mockReadFromNotesResponse = {
+			notes: [
+				{
+					title: 'New Note',
+					description: 'Injected note',
+					noteId: 'rtfhy7w',
+					isActive: true
+				}
+			] 
+		};
+		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
+		await getNotes(null, mockH);
+		expect(mockH.response).toHaveBeenCalledWith(mockReadFromNotesResponse);
 		expect(mockCode).toHaveBeenCalledWith(200);
+		mockReadFromNotes.mockRestore();
+	});
+
+	it('should return a statusCode: 500 when the file read fails', async (done) => {
+		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
+		mockReadFromNotes.mockRejectedValue(new Error('Read file failed'));
+		const mockCode = jest.fn();
+		const mockH = {
+			response: jest.fn(() => ({ 
+				code: mockCode 
+			}))
+		};
+		await getNotes(null, mockH);
+		expect(mockCode).toHaveBeenCalledWith(500);
+		expect(mockH.response).toHaveBeenCalledWith('Read file failed');
+		mockReadFromNotes.mockRestore();
 		done();
 	});
+
 });
 
 describe('the postNote handler function,', () => {  

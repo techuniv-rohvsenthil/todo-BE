@@ -2,7 +2,8 @@ const fs = require('promise-fs');
 
 const readFromNotes = async (filepath) => {
 	let data = await fs.readFile(filepath, 'utf-8');
-	return data; 
+	let parsedNotes = JSON.parse(data);
+	return parsedNotes; 
 };
 
 const writeToNotes = async (filepath, data) => {
