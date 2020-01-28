@@ -4,15 +4,18 @@ const fileOperations = require('../../src/utils/fileOperations');
 describe('the getNotes handler function,', () => {  
 
 	it('should call readFromNotes when /notes is hit with GET', async (done) => {
+		const mockCode = jest.fn();
 		const mock = {
-			response: jest.fn()
+			response: () => {
+				return {
+					code: mockCode
+				};
+			}
 		};
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
 		await getNotes(null, mock);
 		expect(mockReadFromNotes).toHaveBeenCalled();
-		expect(mock.response).toHaveBeenCalled();
-		mockReadFromNotes.mockRestore();
-		mock.response.mockRestore();
+		expect(mockCode).toHaveBeenCalledWith(200);
 		done();
 	});
 });
@@ -26,16 +29,20 @@ describe('the postNote handler function,', () => {
 				description: 'Note new description'
 			}
 		};
+		const mockCode = jest.fn();
 		const mockH = {
-			response: () => {}
+			response: () => {
+				return{
+					code: mockCode
+				};
+			}
 		};	
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
 		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
 		await postNote(mockRequest, mockH);
 		expect(mockReadFromNotes).toHaveBeenCalled();
 		expect(mockWriteToNotes).toHaveBeenCalled();
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		expect(mockCode).toHaveBeenCalledWith(200);
 		done();
 	});
 
@@ -49,16 +56,20 @@ describe('the deleteNote handler function,', () => {
 				id: 'tb018tp'
 			}
 		};
+		const codeMock = jest.fn();
 		const mockH = {
-			response: () => {}
+			response: () => {
+				return{
+					code: codeMock
+				};
+			}
 		};	
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
 		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
 		await deleteNote(mockRequest, mockH);
 		expect(mockReadFromNotes).toHaveBeenCalled();
 		expect(mockWriteToNotes).toHaveBeenCalled();
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		expect(codeMock).toHaveBeenCalledWith(200);
 		done();
 	});
 
@@ -72,16 +83,20 @@ describe('the changeStateOfNote handler function,', () => {
 				id: 'gaqa5v6'
 			}
 		};
+		const codeMock = jest.fn();
 		const mockH = {
-			response: () => {}
+			response: () => {
+				return{
+					code: codeMock
+				};
+			}
 		};	
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
 		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
 		await changeStateOfNote(mockRequest, mockH);
 		expect(mockReadFromNotes).toHaveBeenCalled();
 		expect(mockWriteToNotes).toHaveBeenCalled();
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		expect(codeMock).toHaveBeenCalledWith(200);
 		done();
 	});
 

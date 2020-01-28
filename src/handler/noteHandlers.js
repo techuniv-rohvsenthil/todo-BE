@@ -9,14 +9,14 @@ const postNote = async (request, h) => {
 	let arrayOfNotes = JSON.parse(data);
 	arrayOfNotes.notes.push(body);
 	await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
-	return h.response('Note added');
+	return h.response('Note added').code(200);
 };
 
 const getNotes = async (response, h) => {
 
 	let notes = await fileOperations.readFromNotes('./listOfNotes.json');
 	let parsedNotes = JSON.parse(notes);
-	return h.response(parsedNotes);
+	return h.response(parsedNotes).code(200);
 
 };
 
@@ -28,7 +28,7 @@ const deleteNote = async (request, h) => {
 		return obj.noteId != id;
 	});
 	await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
-	return h.response('Note deleted');
+	return h.response('Note deleted').code(200);
 
 };
 
@@ -45,7 +45,7 @@ const changeStateOfNote = async (request, h) => {
 		id += 1;
 	});
 	await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
-	return h.response('State changed');
+	return h.response('State changed').code(200);
 
 };
 
