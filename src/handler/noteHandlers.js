@@ -12,7 +12,7 @@ const postNote = async (request, h) => {
 		return h.response('Note added').code(200);
 	}
 	catch(err){
-		return h.response(err.message).code(500);
+		return h.response(err.message).code(500); 
 	}
 };
 

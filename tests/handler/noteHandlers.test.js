@@ -3,7 +3,7 @@ const fileOperations = require('../../src/utils/fileOperations');
 
 describe('the getNotes handler function,', () => {  
 
-	it('should call readFromNotes when /notes is hit with GET', async () => {
+	it('should call h.response with success message when /notes is hit with GET', async () => {
 		const mockCode = jest.fn();
 		const mockH = {
 			response: jest.fn(() => {
@@ -50,7 +50,7 @@ describe('the getNotes handler function,', () => {
 
 describe('the postNote handler function,', () => {  
 
-	it('should call readFromNotes and writetoNotes when /notes is hit with POST', async (done) => {
+	it('should call h.response with success message when /notes is hit with POST', async (done) => {
 		const mockRequest = {
 			payload: {
 				title: 'Note new',
@@ -59,18 +59,68 @@ describe('the postNote handler function,', () => {
 		};
 		const mockCode = jest.fn();
 		const mockH = {
-			response: () => {
+			response: jest.fn(() => {
 				return{
 					code: mockCode
 				};
-			}
+			})
 		};	
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
 		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
+		const mockReadFromNotesResponse = {
+			notes: [
+				{
+					title: 'New Note',
+					description: 'Injected note',
+					noteId: 'rtfhy7w',
+					isActive: true
+				}
+			] 
+		};
+		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
+		mockWriteToNotes.mockResolvedValue();
 		await postNote(mockRequest, mockH);
-		expect(mockReadFromNotes).toHaveBeenCalled();
-		expect(mockWriteToNotes).toHaveBeenCalled();
+		expect(mockH.response).toHaveBeenCalledWith('Note added');
 		expect(mockCode).toHaveBeenCalledWith(200);
+		mockReadFromNotes.mockRestore();
+		mockWriteToNotes.mockRestore();
+		done();
+	});
+
+	it('should return statusCode: 500 adding new note fails', async (done) => {
+		const mockRequest = {
+			payload: {
+				title: 'Note new',
+				description: 'Note new description'
+			}
+		};
+		const mockCode = jest.fn();
+		const mockH = {
+			response: jest.fn(() => {
+				return{
+					code: mockCode
+				};
+			})
+		};	
+		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
+		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
+		const mockReadFromNotesResponse = {
+			notes: [
+				{
+					title: 'New Note',
+					description: 'Injected note',
+					noteId: 'rtfhy7w',
+					isActive: true
+				}
+			] 
+		};
+		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
+		mockWriteToNotes.mockRejectedValue(new Error('Failed to add note'));
+		await postNote(mockRequest, mockH);
+		expect(mockH.response).toHaveBeenCalledWith('Failed to add note');
+		expect(mockCode).toHaveBeenCalledWith(500);
+		mockReadFromNotes.mockRestore();
+		mockWriteToNotes.mockRestore();
 		done();
 	});
 
