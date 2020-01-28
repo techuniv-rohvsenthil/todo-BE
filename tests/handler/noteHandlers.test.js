@@ -1,7 +1,7 @@
 const fs = require('promise-fs');
 const {getNotes, getQuote, postNote, deleteNote, modifyNote} = require('../../src/handler/noteHandlers');
 const fileOperations = require('../../src/utils/fileOperations');
-const dailyQuote = require('inspirational-quotes');
+const axios = require('axios').default;
 
 describe('the handlers,', () => {  
 
@@ -54,15 +54,9 @@ describe('the handlers,', () => {
 
 
 	it('should call the getQuote handler function when /quotes is hit with GET', async (done) => {
-		dailyQuote.getRandomQuote = jest.fn();
-		const mockResponse = {
-			response: jest.fn()
-		};
-		getQuote(null, mockResponse);
-		expect(dailyQuote.getRandomQuote).toHaveBeenCalled();
-		expect(mockResponse.response).toHaveBeenCalled();
-		dailyQuote.getRandomQuote.mockRestore();
-		mockResponse.response.mockRestore();
+		const mockAxios = jest.spyOn(axios, 'get');
+		getQuote();
+		expect(mockAxios).toHaveBeenCalledWith('http://api.quotable.io/random');
 		done();
 	});
 

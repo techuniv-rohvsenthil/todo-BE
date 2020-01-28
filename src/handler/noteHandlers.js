@@ -1,6 +1,6 @@
 const uid = require('uid');
 const fileOperations = require('../utils/fileOperations');
-const dailyQuote = require('inspirational-quotes');
+const axios = require('axios').default;
 
 const postNote = async (request, h) => {
 	let body = request.payload;	
@@ -21,9 +21,10 @@ const getNotes = async (response, h) => {
 
 };
 
-const getQuote = (response, h) => {
-	let quote = dailyQuote.getRandomQuote();
-	return h.response(quote);
+const getQuote = async (response, h) => {
+	const quotesData = await axios.get('http://api.quotable.io/random');
+	const quotes = quotesData.data.content;
+	return h.response(quotes);
 
 };
 
