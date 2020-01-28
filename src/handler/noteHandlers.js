@@ -1,6 +1,5 @@
 const uid = require('uid');
 const fileOperations = require('../utils/fileOperations');
-const axios = require('axios').default;
 
 const postNote = async (request, h) => {
 	let body = request.payload;	
@@ -21,13 +20,6 @@ const getNotes = async (response, h) => {
 
 };
 
-const getQuote = async (response, h) => {
-	const quotesData = await axios.get('http://api.quotable.io/random');
-	const quotes = quotesData.data.content;
-	return h.response(quotes);
-
-};
-
 const deleteNote = async (request, h) => {
 	let url = request.url.toString().split('/');
 	let id = url[url.length - 1]; //params
@@ -45,4 +37,4 @@ const modifyNote = async (response, h) => {
 
 };
 
-module.exports = {getNotes, getQuote, postNote, deleteNote, modifyNote};
+module.exports = {getNotes, postNote, deleteNote, modifyNote};

@@ -1,4 +1,5 @@
-const {getNotes, getQuote, postNote, deleteNote, modifyNote} = require('../handler/noteHandlers');
+const {getNotes, postNote, deleteNote, modifyNote} = require('../handler/noteHandlers');
+const getQuote = require('../handler/quoteHandlers');
 const Joi = require('@hapi/joi');
 const {postNoteSchema, deleteNoteSchema} = require('../schema/noteSchema');
 
