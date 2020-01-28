@@ -1,6 +1,5 @@
-const {getNotes, postNote, deleteNote, modifyNote} = require('../handler/noteHandlers');
+const {getNotes, postNote, deleteNote, changeStateOfNote} = require('../handler/noteHandlers');
 const getQuote = require('../handler/quoteHandlers');
-const Joi = require('@hapi/joi');
 const {postNoteSchema, deleteNoteSchema} = require('../schema/noteSchema');
 
 const routeArray = [
@@ -8,6 +7,6 @@ const routeArray = [
 	{path: '/quotes', method: 'GET', handler: getQuote},
 	{path: '/notes', method: 'POST', config: { handler: postNote, validate: {payload: postNoteSchema}}},
 	{path: '/notes/{id}', method: 'DELETE', config: { handler: deleteNote, validate: {params: deleteNoteSchema}}},
-	{path: '/notes/{id}', method: 'PUT', handler: modifyNote}
+	{path: '/notes/{id}', method: 'PUT', handler: changeStateOfNote}
 ];
 module.exports = routeArray;

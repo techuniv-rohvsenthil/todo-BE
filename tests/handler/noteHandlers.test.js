@@ -1,7 +1,5 @@
-const fs = require('promise-fs');
-const {getNotes, postNote, deleteNote, modifyNote} = require('../../src/handler/noteHandlers');
+const {getNotes, postNote, deleteNote, changeStateOfNote} = require('../../src/handler/noteHandlers');
 const fileOperations = require('../../src/utils/fileOperations');
-const axios = require('axios').default;
 
 describe('the handlers,', () => {  
 
@@ -37,7 +35,9 @@ describe('the handlers,', () => {
 
 	it('should call the deleteNote handler function when /notes/{id} is hit with DELETE', async (done) => {
 		const mockRequest = {
-			url: '/notes/ysqyvwk',
+			params: {
+				id: 'tb018tp'
+			}
 		};
 		const mockH = {
 			response: () => {}
@@ -45,6 +45,25 @@ describe('the handlers,', () => {
 		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
 		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
 		await deleteNote(mockRequest, mockH);
+		expect(mockReadFromNotes).toHaveBeenCalled();
+		expect(mockWriteToNotes).toHaveBeenCalled();
+		mockReadFromNotes.mockRestore();
+		mockWriteToNotes.mockRestore();
+		done();
+	});
+
+	it('should call the changeStateOfNote handler function when /notes/{id} is hit with PUT', async (done) => {
+		const mockRequest = {
+			params: {
+				id: 'gaqa5v6'
+			}
+		};
+		const mockH = {
+			response: () => {}
+		};	
+		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
+		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
+		await changeStateOfNote(mockRequest, mockH);
 		expect(mockReadFromNotes).toHaveBeenCalled();
 		expect(mockWriteToNotes).toHaveBeenCalled();
 		mockReadFromNotes.mockRestore();

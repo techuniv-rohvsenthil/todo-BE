@@ -21,8 +21,7 @@ const getNotes = async (response, h) => {
 };
 
 const deleteNote = async (request, h) => {
-	let url = request.url.toString().split('/');
-	let id = url[url.length - 1]; //params
+	let id = request.params.id;
 	let data = await fileOperations.readFromNotes('./listOfNotes.json');     
 	let arrayOfNotes = JSON.parse(data);
 	arrayOfNotes.notes = arrayOfNotes.notes.filter(function(obj) {
@@ -33,8 +32,21 @@ const deleteNote = async (request, h) => {
 
 };
 
-const modifyNote = async (response, h) => {
+const changeStateOfNote = async (request, h) => {
+	let data = await fileOperations.readFromNotes('./listOfNotes.json');
+	let arrayOfNotes = JSON.parse(data);     
+	const noteId = request.params.id;
+	let id = 0;
+	arrayOfNotes.notes.forEach((note) => {
+		if (note.noteId === noteId) {
+			arrayOfNotes.notes[id].isActive = !arrayOfNotes.notes[id].isActive;
+			return;
+		}
+		id += 1;
+	});
+	await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
+	return h.response('State changed');
 
 };
 
-module.exports = {getNotes, postNote, deleteNote, modifyNote};
+module.exports = {getNotes, postNote, deleteNote, changeStateOfNote};
