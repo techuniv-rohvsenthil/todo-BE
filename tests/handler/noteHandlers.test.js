@@ -1,5 +1,4 @@
 const {getNotes, postNote, deleteNote, changeStateOfNote} = require('../../src/handler/noteHandlers');
-const fileOperations = require('../../src/utils/fileOperations');
 const dbOperations = require('../../src/utils/dbOperations');
 const uuid = require('uuid');
 
@@ -152,12 +151,12 @@ describe('the deleteNote handler function,', () => {
 
 });
 
-xdescribe('the changeStateOfNote handler function,', () => {  
+describe('the changeStateOfNote handler function,', () => {  
 
 	it('should call h.response with success message when /notes/{id} is hit with PUT', async (done) => {
 		const mockRequest = {
 			params: {
-				id: 'gaqa5v6'
+				id: uuid()
 			}
 		};
 		const codeMock = jest.fn();
@@ -168,32 +167,19 @@ xdescribe('the changeStateOfNote handler function,', () => {
 				};
 			})
 		};
-		const mockReadFromNotesResponse = {
-			notes: [
-				{
-					title: 'New Note',
-					description: 'Injected note',
-					noteId: 'rtfhy7w',
-					isActive: true
-				}
-			] 
-		};	
-		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
-		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
-		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
-		mockWriteToNotes.mockResolvedValue();
+		const mockUpdateNoteDB = jest.spyOn(dbOperations, 'updateNoteDB');
+		mockUpdateNoteDB.mockResolvedValue();
 		await changeStateOfNote(mockRequest, mockH);
 		expect(mockH.response).toHaveBeenCalledWith('State changed');
 		expect(codeMock).toHaveBeenCalledWith(200);
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		mockUpdateNoteDB.mockRestore();
 		done();
 	});
 
 	it('should return statusCode: 500 note is failed to be updated', async (done) => {
 		const mockRequest = {
 			params: {
-				id: 'gaqa5v6'
+				id: uuid()
 			}
 		};
 		const codeMock = jest.fn();
@@ -204,25 +190,12 @@ xdescribe('the changeStateOfNote handler function,', () => {
 				};
 			})
 		};
-		const mockReadFromNotesResponse = {
-			notes: [
-				{
-					title: 'New Note',
-					description: 'Injected note',
-					noteId: 'rtfhy7w',
-					isActive: true
-				}
-			] 
-		};	
-		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
-		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
-		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
-		mockWriteToNotes.mockRejectedValue(new Error ('State change failed'));
+		const mockUpdateNoteDB = jest.spyOn(dbOperations, 'updateNoteDB');
+		mockUpdateNoteDB.mockRejectedValue(new Error ('State change failed'));
 		await changeStateOfNote(mockRequest, mockH);
 		expect(mockH.response).toHaveBeenCalledWith('State change failed');
 		expect(codeMock).toHaveBeenCalledWith(500);
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		mockUpdateNoteDB.mockRestore();
 		done();
 	});
 

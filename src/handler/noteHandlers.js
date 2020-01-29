@@ -1,4 +1,3 @@
-const fileOperations = require('../utils/fileOperations');
 const dbOperations = require('../utils/dbOperations');
 
 const postNote = async (request, h) => {
@@ -37,17 +36,8 @@ const deleteNote = async (request, h) => {
 
 const changeStateOfNote = async (request, h) => {
 	try{
-		let arrayOfNotes = await fileOperations.readFromNotes('./listOfNotes.json');    
-		const noteId = request.params.id;
-		let id = 0;
-		arrayOfNotes.notes.forEach((note) => {
-			if (note.noteId === noteId) {
-				arrayOfNotes.notes[id].isActive = !arrayOfNotes.notes[id].isActive;
-				return;
-			}
-			id += 1;
-		});
-		await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
+		const id = request.params.id;
+		await dbOperations.updateNoteDB(id);
 		return h.response('State changed').code(200);
 	}
 	catch(err){

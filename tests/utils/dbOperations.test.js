@@ -51,10 +51,25 @@ describe('the deleteNoteDB function,', () => {
 		const mockSequelize = jest.spyOn(sequelize, 'query');
 		mockSequelize.mockResolvedValue();
 		const mockId = uuid();
-		await dbOperations.insertNoteDB(mockId);
+		await dbOperations.deleteNoteDB(mockId);
 		expect(mockSequelize).toHaveBeenCalled();
 		mockSequelize.mockRestore();
 		sequelize.close();
 	});
     
 });
+
+describe('the updateNoteDB function,', () => {
+
+	it('should call sequelize.query to update the state of note', async () => {
+		const mockSequelize = jest.spyOn(sequelize, 'query');
+		mockSequelize.mockResolvedValue();
+		const mockId = uuid();
+		await dbOperations.updateNoteDB(mockId);
+		expect(mockSequelize).toHaveBeenCalled();
+		mockSequelize.mockRestore();
+		sequelize.close();
+	});
+    
+});
+

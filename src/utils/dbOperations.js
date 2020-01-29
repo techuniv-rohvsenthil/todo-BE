@@ -30,4 +30,13 @@ const deleteNoteDB = async (id) => {
 	);
 };
 
-module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB};
+const updateNoteDB = async (id) => {
+	await sequelize.query(
+		`UPDATE notes SET isactive = NOT isactive WHERE noteid = '${id}'`,
+		{
+			type: sequelize.QueryTypes.UPDATE,
+		},
+	);
+};
+
+module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB, updateNoteDB};
