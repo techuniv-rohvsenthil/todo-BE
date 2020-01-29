@@ -21,4 +21,13 @@ const insertNoteDB = async (noteValues) => {
 	);
 };
 
-module.exports = {selectNotesDB, insertNoteDB};
+const deleteNoteDB = async (id) => {
+	await sequelize.query(
+		`DELETE FROM notes WHERE noteid = '${id}'`,
+		{
+			type: sequelize.QueryTypes.DELETE,
+		},
+	);
+};
+
+module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB};

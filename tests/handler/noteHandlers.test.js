@@ -102,12 +102,12 @@ describe('the postNote handler function,', () => {
 
 });
 
-xdescribe('the deleteNote handler function,', () => {  
+describe('the deleteNote handler function,', () => {  
 
 	it('should call h.response with success message when /notes/{id} is hit with DELETE', async (done) => {
 		const mockRequest = {
 			params: {
-				id: 'tb018tp'
+				id: uuid()
 			}
 		};
 		const codeMock = jest.fn();
@@ -117,33 +117,20 @@ xdescribe('the deleteNote handler function,', () => {
 					code: codeMock
 				};
 			})
-		};
-		const mockReadFromNotesResponse = {
-			notes: [
-				{
-					title: 'New Note',
-					description: 'Injected note',
-					noteId: 'rtfhy7w',
-					isActive: true
-				}
-			] 
-		};		
-		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
-		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
-		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
-		mockWriteToNotes.mockResolvedValue();
+		};	
+		const mockDeleteNoteDB = jest.spyOn(dbOperations, 'deleteNoteDB');
+		mockDeleteNoteDB.mockResolvedValue();
 		await deleteNote(mockRequest, mockH);
 		expect(mockH.response).toHaveBeenCalledWith('Note deleted');
 		expect(codeMock).toHaveBeenCalledWith(200);
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		mockDeleteNoteDB.mockRestore();
 		done();
 	});
 
 	it('should return statusCode: 500 when delete action fails', async (done) => {
 		const mockRequest = {
 			params: {
-				id: 'tb018tp'
+				id: uuid()
 			}
 		};
 		const codeMock = jest.fn();
@@ -153,26 +140,13 @@ xdescribe('the deleteNote handler function,', () => {
 					code: codeMock
 				};
 			})
-		};
-		const mockReadFromNotesResponse = {
-			notes: [
-				{
-					title: 'New Note',
-					description: 'Injected note',
-					noteId: 'rtfhy7w',
-					isActive: true
-				}
-			] 
-		};		
-		const mockReadFromNotes = jest.spyOn(fileOperations, 'readFromNotes');
-		const mockWriteToNotes = jest.spyOn(fileOperations, 'writeToNotes');
-		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
-		mockWriteToNotes.mockRejectedValue(new Error ('Note delete failed'));
+		};	
+		const mockDeleteNoteDB = jest.spyOn(dbOperations, 'deleteNoteDB');
+		mockDeleteNoteDB.mockRejectedValue(new Error ('Note delete failed'));
 		await deleteNote(mockRequest, mockH);
 		expect(mockH.response).toHaveBeenCalledWith('Note delete failed');
 		expect(codeMock).toHaveBeenCalledWith(500);
-		mockReadFromNotes.mockRestore();
-		mockWriteToNotes.mockRestore();
+		mockDeleteNoteDB.mockRestore();
 		done();
 	});
 

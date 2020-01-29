@@ -1,4 +1,3 @@
-const uuid = require('uuid');
 const fileOperations = require('../utils/fileOperations');
 const dbOperations = require('../utils/dbOperations');
 
@@ -27,11 +26,7 @@ const getNotes = async (response, h) => {
 const deleteNote = async (request, h) => {
 	try{
 		let id = request.params.id;
-		let arrayOfNotes = await fileOperations.readFromNotes('./listOfNotes.json');     
-		arrayOfNotes.notes = arrayOfNotes.notes.filter(function(obj) {
-			return obj.noteId != id;
-		});
-		await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
+		await dbOperations.deleteNoteDB(id);     
 		return h.response('Note deleted').code(200);
 	}
 	catch(err){

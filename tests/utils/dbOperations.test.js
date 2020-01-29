@@ -28,7 +28,7 @@ describe('the selectNotesDB function,', () => {
     
 });
 
-describe('the insertNotesDB function,', () => {
+describe('the insertNoteDB function,', () => {
 
 	it('should call sequelize.query to insert the new note', async () => {
 		const mockSequelize = jest.spyOn(sequelize, 'query');
@@ -38,6 +38,20 @@ describe('the insertNotesDB function,', () => {
 			description: 'New note description'
 		};
 		await dbOperations.insertNoteDB(mockValues);
+		expect(mockSequelize).toHaveBeenCalled();
+		mockSequelize.mockRestore();
+		sequelize.close();
+	});
+    
+});
+
+describe('the deleteNoteDB function,', () => {
+
+	it('should call sequelize.query to delete the new note', async () => {
+		const mockSequelize = jest.spyOn(sequelize, 'query');
+		mockSequelize.mockResolvedValue();
+		const mockId = uuid();
+		await dbOperations.insertNoteDB(mockId);
 		expect(mockSequelize).toHaveBeenCalled();
 		mockSequelize.mockRestore();
 		sequelize.close();
