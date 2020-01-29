@@ -1,14 +1,11 @@
-const uid = require('uid');
+const uuid = require('uuid');
 const fileOperations = require('../utils/fileOperations');
+const dbOperations = require('../utils/dbOperations');
 
 const postNote = async (request, h) => {
 	try{
 		let body = request.payload;	
-		body.noteId = uid();
-		body.isActive = true;
-		let arrayOfNotes = await fileOperations.readFromNotes('./listOfNotes.json');     
-		arrayOfNotes.notes.push(body);
-		await fileOperations.writeToNotes('./listOfNotes.json', JSON.stringify(arrayOfNotes));
+		await dbOperations.insertNoteDB(body); 
 		return h.response('Note added').code(200);
 	}
 	catch(err){
@@ -18,7 +15,7 @@ const postNote = async (request, h) => {
 
 const getNotes = async (response, h) => {
 	try{
-		let notes = await fileOperations.readFromNotes('./listOfNotes.json');
+		let notes = await dbOperations.selectNotesDB();
 		return h.response(notes).code(200);
 	}
 	catch(err){
