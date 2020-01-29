@@ -6,7 +6,18 @@ describe('the readFromNotes helper function,', () => {
 
 	it('should call fs.readFile when /notes is hit with GET', async (done) => {
 		const mockFsReadFile = jest.spyOn(fs, 'readFile');
-		await fileOperations.readFromNotes('./listOfNotes.json');
+		const mockFsReadFileResponse = JSON.stringify({
+			notes: [
+				{
+					title: 'New Note',
+					description: 'Injected note',
+					noteId: 'rtfhy7w',
+					isActive: true
+				}
+			] 
+		});
+		mockFsReadFile.mockResolvedValue(mockFsReadFileResponse);
+		await fileOperations.readFromNotes('./abc.json');
 		expect(mockFsReadFile).toHaveBeenCalled();
 		mockFsReadFile.mockRestore();
 		done();
@@ -18,7 +29,9 @@ describe('the writeToNotes helper function,', () => {
 
 	it('should call fs.writeFile when /notes is hit with GET', async (done) => {
 		const mockFsWriteFile = jest.spyOn(fs, 'writeFile');
-		await fileOperations.writeToNotes('./listOfNotes.json', str);
+		mockFsWriteFile.mockResolvedValue();
+
+		await fileOperations.writeToNotes('./abc.json', str);
 		expect(mockFsWriteFile).toHaveBeenCalled();
 		mockFsWriteFile.mockRestore();
 		done();
