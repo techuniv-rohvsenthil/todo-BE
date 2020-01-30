@@ -11,7 +11,7 @@ const postNote = async (request, h) => {
 	}
 };
 
-const getNotes = async (response, h) => {
+const getNotes = async (request, h) => {
 	try{
 		let notes = await dbOperations.selectNotesDB();
 		return h.response(notes).code(200);
@@ -24,8 +24,9 @@ const getNotes = async (response, h) => {
 
 const deleteNote = async (request, h) => {
 	try{
+		const sequelize = request.server.sequelize;
 		let id = request.params.id;
-		await dbOperations.deleteNoteDB(id);     
+		await dbOperations.deleteNoteDB(sequelize, id);     
 		return h.response('Note deleted').code(200);
 	}
 	catch(err){
@@ -36,8 +37,9 @@ const deleteNote = async (request, h) => {
 
 const changeStateOfNote = async (request, h) => {
 	try{
+		const sequelize = request.server.sequelize;
 		const id = request.params.id;
-		await dbOperations.updateNoteDB(id);
+		await dbOperations.updateNoteDB(sequelize, id);
 		return h.response('State changed').code(200);
 	}
 	catch(err){

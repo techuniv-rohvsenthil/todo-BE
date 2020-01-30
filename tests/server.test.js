@@ -1,10 +1,13 @@
 let {init} = require('../src/server');
 
+
 describe('the server,', () => {  
 	
 	let server;
 
 	beforeEach(async () => {
+		//erver = await buildServer()
+		//await server.initialize()
 		server = await init();
 	});
 
@@ -40,7 +43,7 @@ describe('the server,', () => {
 	it('should recieve statusCode:200 when /notes/{id} is hit with DELETE', async (done) => {
 		let obj = {
 			method: 'DELETE',
-			url: '/notes/bvi1it8'
+			url: '/notes/ef0a2d1f-a1c3-4ef9-93b5-851a3ccf250f'
 		};
 		const res = await server.inject(obj);
 		expect(res.payload).toBe('Note deleted');
@@ -61,7 +64,7 @@ describe('the server,', () => {
 	it('should recieve statusCode:200 when /notes/{id} is hit with PUT', async (done) =>{
 		const injectOptions = {
 			method: 'PUT',
-			url: '/notes/gaqa5v6',
+			url: '/notes/ef0a2d1f-a1c3-4ef9-93b5-851a3ccf250f',
 		};
 		const response = await server.inject(injectOptions);
 		expect(response.statusCode).toEqual(200);
@@ -70,5 +73,16 @@ describe('the server,', () => {
 
 
 });
+
+// it ('The route GET /notes should return a statusCode 200', async () => {
+// 	const options = {
+// 		method: 'GET',
+// 		url: '/notes',
+// 	};
+// 	const mockPostNotes = jest.spyOn(dbUtils, 'get');
+// 	mockPostNotes.mockResolvedValue('{"title":"task1"}');
+// 	const response = await server.inject(options);
+// 	expect(response.statusCode).toBe(200);
+// });
 
 

@@ -1,42 +1,33 @@
-const sequelize = require('../dbConnection');
 const uuid = require('uuid');
+const db = require('../../models/index');
 
 const selectNotesDB = async () => {
-	const notes = await sequelize.query('SELECT * FROM notes', { type: sequelize.QueryTypes.SELECT });
+	const notes = await db.notes.findAll();
 	return notes;
 };
 
-const insertNoteDB = async (noteValues) => {
-	await sequelize.query(
-		'INSERT INTO notes (title, description, noteId, isActive) VALUES (:title, :description, :noteId, :isActive)',
-		{
-			replacements: {
-				title: noteValues.title,
-				description: noteValues.description,
-				noteId: uuid(),
-				isActive: true,
-			},
-			type: sequelize.QueryTypes.INSERT,
-		},
-	);
-};
+// const insertNoteDB = async (body) => {
+// 	await db.notes.create({ title: body.title, description: body.description, noteId: uuid(), isActive: true });
 
-const deleteNoteDB = async (id) => {
-	await sequelize.query(
-		`DELETE FROM notes WHERE noteid = '${id}'`,
-		{
-			type: sequelize.QueryTypes.DELETE,
-		},
-	);
-};
+// };
 
-const updateNoteDB = async (id) => {
-	await sequelize.query(
-		`UPDATE notes SET isactive = NOT isactive WHERE noteid = '${id}'`,
-		{
-			type: sequelize.QueryTypes.UPDATE,
-		},
-	);
-};
+// const deleteNoteDB = async (sequelize, id) => {
+// 	await sequelize.query(
+// 		`DELETE FROM notes WHERE noteid = '${id}'`,
+// 		{
+// 			type: Sequelize.QueryTypes.DELETE,
+// 		},
+// 	);
+// };
 
-module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB, updateNoteDB};
+// const updateNoteDB = async (sequelize, id) => {
+// 	await sequelize.query(
+// 		`UPDATE notes SET isactive = NOT isactive WHERE noteid = '${id}'`,
+// 		{
+// 			type: Sequelize.QueryTypes.UPDATE,
+// 		},
+// 	);
+// };
+
+//module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB, updateNoteDB};
+module.exports = {selectNotesDB, insertNoteDB};
