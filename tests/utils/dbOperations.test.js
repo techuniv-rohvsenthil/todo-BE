@@ -29,48 +29,48 @@ describe('the selectNotesDB function,', () => {
     
 });
 
-// xdescribe('the insertNoteDB function,', () => {
+describe('the insertNoteDB function,', () => {
 
-// 	it('should call sequelize.query to insert the new note', async () => {
-// 		const mockSequelize = jest.spyOn(sequelize, 'query');
-// 		mockSequelize.mockResolvedValue();
-// 		const mockValues = {
-// 			title: 'New note',
-// 			description: 'New note description'
-// 		};
-// 		await dbOperations.insertNoteDB(mockValues);
-// 		expect(mockSequelize).toHaveBeenCalled();
-// 		mockSequelize.mockRestore();
-// 		sequelize.close();
-// 	});
+	it('should call sequelize.query to insert the new note', async () => {
+		const mockSequelize = jest.spyOn(db.notes, 'create');
+		mockSequelize.mockResolvedValue();
+		const mockValues = {
+			title: 'New note',
+			description: 'New note description'
+		};
+		await dbOperations.insertNoteDB(mockValues);
+		expect(mockSequelize).toHaveBeenCalled();
+		mockSequelize.mockRestore();
+		sequelize.close();
+	});
     
-// });
+});
 
-// xdescribe('the deleteNoteDB function,', () => {
+xdescribe('the deleteNoteDB function,', () => {
 
-// 	it('should call sequelize.query to delete the new note', async () => {
-// 		const mockSequelize = jest.spyOn(sequelize, 'query');
-// 		mockSequelize.mockResolvedValue();
-// 		const mockId = uuid();
-// 		await dbOperations.deleteNoteDB(mockId);
-// 		expect(mockSequelize).toHaveBeenCalled();
-// 		mockSequelize.mockRestore();
-// 		sequelize.close();
-// 	});
+	it('should call sequelize.query to delete the new note', async () => {
+		const mockSequelize = jest.spyOn(sequelize, 'query');
+		mockSequelize.mockResolvedValue();
+		const mockId = uuid();
+		await dbOperations.deleteNoteDB(mockId);
+		expect(mockSequelize).toHaveBeenCalled();
+		mockSequelize.mockRestore();
+		sequelize.close();
+	});
     
-// });
+});
 
-// xdescribe('the updateNoteDB function,', () => {
+xdescribe('the updateNoteDB function,', () => {
 
-// 	it('should call sequelize.query to update the state of note', async () => {
-// 		const mockSequelize = jest.spyOn(sequelize, 'query');
-// 		mockSequelize.mockResolvedValue();
-// 		const mockId = uuid();
-// 		await dbOperations.updateNoteDB(mockId);
-// 		expect(mockSequelize).toHaveBeenCalled();
-// 		mockSequelize.mockRestore();
-// 		sequelize.close();
-// 	});
+	it('should call sequelize.query to update the state of note', async () => {
+		const mockSequelize = jest.spyOn(sequelize, 'query');
+		mockSequelize.mockResolvedValue();
+		const mockId = uuid();
+		await dbOperations.updateNoteDB(mockId);
+		expect(mockSequelize).toHaveBeenCalled();
+		mockSequelize.mockRestore();
+		sequelize.close();
+	});
     
-// });
+});
 

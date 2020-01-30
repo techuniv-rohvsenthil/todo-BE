@@ -6,10 +6,10 @@ const selectNotesDB = async () => {
 	return notes;
 };
 
-// const insertNoteDB = async (body) => {
-// 	await db.notes.create({ title: body.title, description: body.description, noteId: uuid(), isActive: true });
+const insertNoteDB = async (body) => {
+	await db.notes.create({ title: body.title, description: body.description, noteId: uuid(), isActive: true });
 
-// };
+};
 
 // const deleteNoteDB = async (sequelize, id) => {
 // 	await sequelize.query(
