@@ -1,17 +1,12 @@
-const sequelize = require('../../src/dbConnection');
+//const sequelize = require('../../src/dbConnection');
 const dbOperations = require('../../src/utils/dbOperations');
 const uuid = require('uuid');
 const db = require('../../models/index');
 
 
 describe('the selectNotesDB function,', () => {
-	it('should return an array', async () => {
-		const notes = await dbOperations.selectNotesDB();
-		expect(notes).toBeInstanceOf(Array);
-		sequelize.close();
-	});
 
-	it('should call return result of sequelize.query', async () => {
+	it('should return all notes', async () => {
 		const mockSequelize = jest.spyOn(db.notes, 'findAll');
 		const mockSequelizeResponse = [{
 			title: 'Note 1',
@@ -24,14 +19,14 @@ describe('the selectNotesDB function,', () => {
 		expect(mockSequelize).toHaveBeenCalled();
 		expect(notes).toBe(mockSequelizeResponse);
 		mockSequelize.mockRestore();
-		sequelize.close();
+		//sequelize.close();
 	});
     
 });
 
 describe('the insertNoteDB function,', () => {
 
-	it('should call sequelize.query to insert the new note', async () => {
+	it('should insert a new note', async () => {
 		const mockSequelize = jest.spyOn(db.notes, 'create');
 		mockSequelize.mockResolvedValue();
 		const mockValues = {
@@ -39,9 +34,9 @@ describe('the insertNoteDB function,', () => {
 			description: 'New note description'
 		};
 		await dbOperations.insertNoteDB(mockValues);
-		expect(mockSequelize).toHaveBeenCalled();
+		expect(mockSequelize).toHaveBeenCalled(); 
 		mockSequelize.mockRestore();
-		sequelize.close();
+		//sequelize.close();
 	});
     
 });

@@ -7,9 +7,15 @@ const selectNotesDB = async () => {
 };
 
 const insertNoteDB = async (body) => {
-	await db.notes.create({ title: body.title, description: body.description, noteId: uuid(), isActive: true });
-
+	const obj = { title: body.title, description: body.description, noteId: uuid(), isActive: true };
+	db.notes.create(obj);
+	return obj;
 };
+
+const deleteNoteDB = async (id) => {
+	db.notes.destroy({where:{noteId:id}});
+};
+
 
 // const deleteNoteDB = async (sequelize, id) => {
 // 	await sequelize.query(
@@ -30,4 +36,4 @@ const insertNoteDB = async (body) => {
 // };
 
 //module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB, updateNoteDB};
-module.exports = {selectNotesDB, insertNoteDB};
+module.exports = {selectNotesDB, insertNoteDB, deleteNoteDB};

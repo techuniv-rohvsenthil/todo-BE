@@ -5,7 +5,10 @@ const dbPlugin = require('./src/plugin');
 
 const server = Hapi.Server({
 	host: 'localhost',
-	port: 8080
+	port: 8080,
+	routes: {
+		cors: true
+	}
 });
 
 server.validator(Joi);

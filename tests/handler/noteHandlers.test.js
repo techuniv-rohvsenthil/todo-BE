@@ -1,5 +1,5 @@
 //const {getNotes, postNote, deleteNote, changeStateOfNote} = require('../../src/handler/noteHandlers');
-const {getNotes, postNote} = require('../../src/handler/noteHandlers');
+const {getNotes, postNote, deleteNote} = require('../../src/handler/noteHandlers');
 const dbOperations = require('../../src/utils/dbOperations');
 const uuid = require('uuid');
 
@@ -70,7 +70,7 @@ describe('the postNote handler function,', () => {
 		const mockInsertNoteDB = jest.spyOn(dbOperations, 'insertNoteDB');
 		mockInsertNoteDB.mockResolvedValue();
 		await postNote(mockRequest, mockH);
-		expect(mockH.response).toHaveBeenCalledWith('Note added');
+		expect(mockH.response).toHaveBeenCalled();
 		expect(mockCode).toHaveBeenCalledWith(200);
 		mockInsertNoteDB.mockRestore();
 		done();

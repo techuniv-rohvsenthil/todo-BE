@@ -3,8 +3,8 @@ const dbOperations = require('../utils/dbOperations');
 const postNote = async (request, h) => {
 	try{
 		let body = request.payload;	
-		await dbOperations.insertNoteDB(body); 
-		return h.response('Note added').code(200);
+		const res = await dbOperations.insertNoteDB(body); 
+		return h.response(res).code(200);
 	}
 	catch(err){
 		return h.response(err.message).code(500); 
@@ -24,9 +24,8 @@ const getNotes = async (request, h) => {
 
 const deleteNote = async (request, h) => {
 	try{
-		const sequelize = request.server.sequelize;
 		let id = request.params.id;
-		await dbOperations.deleteNoteDB(sequelize, id);     
+		await dbOperations.deleteNoteDB(id);     
 		return h.response('Note deleted').code(200);
 	}
 	catch(err){
