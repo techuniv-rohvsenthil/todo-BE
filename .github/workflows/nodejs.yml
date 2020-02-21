@@ -13,16 +13,12 @@ jobs:
 
     steps:
     - name: My first step
-      env:
       if: false === true
       run: echo Fail
     - name: My first step
-      env:
       if: false === true
       run: echo Fail
     - name: My first step
-      env:
-      MY_VAR: false
       if : always()
       run: echo Pass
     - uses: actions/checkout@v2
