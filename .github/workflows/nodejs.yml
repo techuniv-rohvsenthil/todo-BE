@@ -14,13 +14,11 @@ jobs:
     steps:
     - name: My first step
       env:
-      MY_VAR: false
-      if: MY_VAR === true
+      if: false === true
       run: echo Fail
     - name: My first step
       env:
-      MY_VAR: false
-      if: MY_VAR === true
+      if: false === true
       run: echo Fail
     - name: My first step
       env:
