@@ -8,17 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: echo job1
+    - run: 
 
   job2:
     runs-on: ubuntu-latest
     steps:
-    - run: echo job2
+    - run: |
+      export FOO=bar
+      echo "::set-env name=FOO::$FOO"
+    - run: echo $FOO
 
   job3:
     runs-on: ubuntu-latest
     needs: [job1, job2]
     steps:
-    - run: echo job2
+    - run: echo job3
 
 
   build:
