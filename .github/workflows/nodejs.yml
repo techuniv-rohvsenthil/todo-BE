@@ -12,15 +12,6 @@ jobs:
         node-version: [8.x, 10.x, 12.x]
 
     steps:
-    - name: My first step
-      if: false === true
-      run: echo Fail
-    - name: My first step
-      if: false === true
-      run: echo Fail
-    - name: My first step
-      if : always()
-      run: echo Pass
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -29,5 +20,8 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
+    - name: My first step
+      if : always()
+      run: echo Pass
       env:
         CI: true
