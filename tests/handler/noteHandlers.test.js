@@ -269,7 +269,7 @@ describe('the changeStateOfNote handler function,', () => {
 		mockReadFromNotes.mockResolvedValue(mockReadFromNotesResponse);
 		mockWriteToNotes.mockRejectedValue(new Error ('State change failed'));
 		await changeStateOfNote(mockRequest, mockH);
-		expect(mockH.response).toHaveBeenCalledWith('State change faile');
+		expect(mockH.response).toHaveBeenCalledWith('State change failed');
 		expect(codeMock).toHaveBeenCalledWith(500);
 		mockReadFromNotes.mockRestore();
 		mockWriteToNotes.mockRestore();
