@@ -47,4 +47,8 @@ const changeStateOfNote = async (request, h) => {
 
 };
 
-module.exports = {getNotes, postNote, deleteNote, changeStateOfNote};
+const pong = (request, h) => {
+	return h.response('Pong').code(200);
+};
+
+module.exports = {getNotes, postNote, deleteNote, changeStateOfNote, pong};

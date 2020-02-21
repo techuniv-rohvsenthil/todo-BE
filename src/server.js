@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 const dbPlugin = require('./plugin');
 
 const server = Hapi.Server({
-	host: 'localhost',
+	host: '0.0.0.0',
 	port: 8080,
 	routes: {
 		cors: true

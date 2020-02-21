@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "Rohini_Senthil",
-    "password": null,
+    "password": "password",
     "database": "todo_db",
-    "host": "127.0.0.1",
+    "host": "postgres",
     "dialect": "postgres",
     "operatorsAliases": false
   },
