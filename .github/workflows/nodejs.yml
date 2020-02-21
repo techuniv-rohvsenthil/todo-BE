@@ -13,9 +13,7 @@ jobs:
   job2:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-      export FOO=bar
-      echo "::set-env name=FOO::$FOO"
+    - run: echo "::set-output name=FOO::BAR"
     - run: echo $FOO
 
   job3:
