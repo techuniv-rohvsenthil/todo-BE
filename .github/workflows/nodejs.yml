@@ -13,8 +13,7 @@ jobs:
   job2:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-      export FOO=bar
+    - run: export FOO=bar
     - run: echo $FOO
 
   job3:
