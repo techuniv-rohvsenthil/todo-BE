@@ -5,7 +5,7 @@ const dbPlugin = require('./src/plugin');
 
 const server = Hapi.Server({
 	host: '0.0.0.0',
-	port: 8080,
+	port: 80,
 	routes: {
 		cors: true
 	}

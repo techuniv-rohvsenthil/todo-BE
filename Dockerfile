@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 80
 
 RUN npm install
 
